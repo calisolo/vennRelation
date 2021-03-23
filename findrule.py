@@ -55,6 +55,7 @@ class findrule(QDialog):
         subjectDepthExist = False
         objectDepthExist = False
         p = re.compile("[^0-9, -]")
+        result = ""
 
 
         while True:
@@ -71,11 +72,13 @@ class findrule(QDialog):
                 if relation[0] == triple[0]:
                     if "Depth" == triple[1][-5:]:
                         subjectDepth = triple[2]
+                        subjectPredicate = triple[1]
                         subjectDepthExist = True
 
                 if relation[2] == triple[0]:
                     if "Depth" == triple[1][-5:]:
                         objectDepth = triple[2]
+                        objectPredicate = triple[1]
                         objectDepthExist = True
 
         f.close()
@@ -85,12 +88,64 @@ class findrule(QDialog):
             # referenceEntity 존재하지않고 단순 일차원 숫자
 
 
-
-        if subjectDepthExist and objectDepthExist:
+        if subjectPredicate == objectPredicate:
+          if subjectDepthExist and objectDepthExist:
             if subjectDepth[0].isalpha():
                 if objectDepth[0].isalpha():
-                   if ''.join(p.findall(subjectDepth)) == ''.join(p.findall(objectDepth)):
-                       print("관계발견")
+                   if ''.join(p.findall(subjectDepth)).rstrip('+,-') == ''.join(p.findall(objectDepth)).rstrip('+,-'): #depth의 reference값 동일
+                     if int(subjectDepth.lstrip(str(p.findall(subjectDepth)))) > int(objectDepth.lstrip(str(p.findall(objectDepth)))):
+                         f = open("./dump/testSearch.txt", 'r')
+
+                         while True:
+                             line = f.readline()
+                             if not line: break
+
+                             triple = line.split()
+                             if len(triple) == 3:
+                                 if triple[1] == subjectPredicate:
+                                     if triple[2][0].isalpha():
+                                         if int(triple[2].lstrip(str(p.findall(triple[2])))) > int(subjectDepth.lstrip(str(p.findall(subjectDepth)))):
+                                             continue
+                                         elif int(triple[2].lstrip(str(p.findall(triple[2])))) < int(objectDepth.lstrip(str(p.findall(objectDepth)))):
+                                             continue
+
+                                         result = result + triple[0] + " " + triple[2] + "\n"
+                                     else:
+                                         continue
+
+                         f.close()
+
+
+                         print (relation[2] +" 는 " + relation[0] + "에 포함됨")
+                         print (result)
+
+                     elif int(subjectDepth.lstrip(str(p.findall(subjectDepth)))) < int(objectDepth.lstrip(str(p.findall(objectDepth)))):
+                         f = open("./dump/testSearch.txt", 'r')
+
+                         while True:
+                             line = f.readline()
+                             if not line: break
+
+                             triple = line.split()
+                             if len(triple) == 3:
+                                 if triple[1] == subjectPredicate:
+                                     if triple[2][0].isalpha():
+                                         if int(triple[2].lstrip(str(p.findall(triple[2])))) < int(subjectDepth.lstrip(str(p.findall(subjectDepth)))):
+                                             continue
+                                         elif int(triple[2].lstrip(str(p.findall(triple[2])))) > int(objectDepth.lstrip(str(p.findall(objectDepth)))):
+                                             continue
+
+                                         result = result + triple[0] + " " + triple[2] + "\n"
+                                     else:
+                                         continue
+
+                         f.close()
+
+
+                         print (relation[0] +" 는 " + relation[2] + "에 포함됨")
+                         print (result)
+
+
 
 
             else:
@@ -98,9 +153,65 @@ class findrule(QDialog):
                     print("nothing")
                 else:
                     if subjectDepth > objectDepth:
+
+
+                        f = open("./dump/testSearch.txt", 'r')
+
+                        while True:
+                            line = f.readline()
+                            if not line: break
+
+
+                            triple = line.split()
+                            if len(triple) == 3:
+                                if triple[1] == subjectPredicate:
+                                    if triple[2][0].isalpha():
+                                        continue
+                                    else:
+                                        if triple[2] > subjectDepth:
+                                            continue
+                                        elif triple[2] < objectDepth:
+                                            continue
+
+                                        result = result + triple[0] + " " + triple[2] +"\n"
+
+                        f.close()
+
                         print(relation[2] + " 는 " + relation[0] + "에 포함됨")
+                        print(result)
+
+
+
+
+
+
+
+
                     elif subjectDepth < objectDepth:
+
+
+                        f = open("./dump/testSearch.txt", 'r')
+
+                        while True:
+                            line = f.readline()
+                            if not line: break
+
+                            triple = line.split()
+                            if len(triple) == 3:
+                                if triple[1] == objectPredicate:
+                                    if triple[2][0].isalpha():
+                                        continue
+                                    else:
+                                        if triple[2] > objectDepth:
+                                            continue
+                                        elif triple[2] < subjectDepth:
+                                            continue
+
+                                        result = result + triple[0] + " " + triple[2] + "\n"
+
+                        f.close()
                         print(relation[0] + " 는 " + relation[2] + "에 포함됨")
+                        print(result)
 
 
 

@@ -22,9 +22,10 @@ Aristotle Zoology
 Government Whynot
 Whynot sad
 army my smile
-smile myDepth -1
 army my smile
 smile myDepth wtf-2
 Korean my army
 Korean my wtf
 Korean myDepth wtf+1
+America myDepth wtf+2
+Taiwan myDepth wtf-3
