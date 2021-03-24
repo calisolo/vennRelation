@@ -83,7 +83,7 @@ class vennUI(QDialog):
 
 
         win.showModal()
-        print(win.tripleO) #win.tripleS tripleO로 subwindow에서 넣은것 받아오기
+        #print(win.tripleO) #win.tripleS tripleO로 subwindow에서 넣은것 받아오기
 
         self.accept()
 

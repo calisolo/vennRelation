@@ -37,8 +37,7 @@ class findrule(QDialog):
     def onOKButtonClicked(self):
 
 
-        f = open("./dump/testSearch.txt", 'r')
-        f2 = open("./dump/testAdded.txt", 'a')
+        f = open("./dump/simplifiedEntity.txt", 'r')
         furtherList = ""
         tmpList = ""
 
@@ -51,11 +50,15 @@ class findrule(QDialog):
         depth = int(self.relationDepth)
         subjectDepth = ""
         objectDepth = ""
+        subjectPredicate = "no allocated"
+        objectPredicate ="didn't allocated"
+
         middleDepthExist = ""
         subjectDepthExist = False
         objectDepthExist = False
         p = re.compile("[^0-9, -]")
         result = ""
+        finishloop = False
 
 
         while True:
@@ -74,12 +77,16 @@ class findrule(QDialog):
                         subjectDepth = triple[2]
                         subjectPredicate = triple[1]
                         subjectDepthExist = True
+                    else:
+                        furtherList = furtherList + triple[2] + "\n"
 
                 if relation[2] == triple[0]:
                     if "Depth" == triple[1][-5:]:
                         objectDepth = triple[2]
                         objectPredicate = triple[1]
                         objectDepthExist = True
+                    else:
+                        furtherList = furtherList + triple[2] + "\n"
 
         f.close()
 
@@ -94,7 +101,7 @@ class findrule(QDialog):
                 if objectDepth[0].isalpha():
                    if ''.join(p.findall(subjectDepth)).rstrip('+,-') == ''.join(p.findall(objectDepth)).rstrip('+,-'): #depth의 reference값 동일
                      if int(subjectDepth.lstrip(str(p.findall(subjectDepth)))) > int(objectDepth.lstrip(str(p.findall(objectDepth)))):
-                         f = open("./dump/testSearch.txt", 'r')
+                         f = open("./dump/simplifiedEntity.txt", 'r')
 
                          while True:
                              line = f.readline()
@@ -118,9 +125,10 @@ class findrule(QDialog):
 
                          print (relation[2] +" 는 " + relation[0] + "에 포함됨")
                          print (result)
+                         finishloop = True
 
                      elif int(subjectDepth.lstrip(str(p.findall(subjectDepth)))) < int(objectDepth.lstrip(str(p.findall(objectDepth)))):
-                         f = open("./dump/testSearch.txt", 'r')
+                         f = open("./dump/simplifiedEntity.txt", 'r')
 
                          while True:
                              line = f.readline()
@@ -144,18 +152,19 @@ class findrule(QDialog):
 
                          print (relation[0] +" 는 " + relation[2] + "에 포함됨")
                          print (result)
+                         finishloop = True
 
 
 
 
             else:
                 if objectDepth[0].isalpha():
-                    print("nothing")
+                    print("겹치는 predicate Depth 존재안함")
                 else:
                     if subjectDepth > objectDepth:
 
 
-                        f = open("./dump/testSearch.txt", 'r')
+                        f = open("./dump/simplifiedEntity.txt", 'r')
 
                         while True:
                             line = f.readline()
@@ -179,6 +188,7 @@ class findrule(QDialog):
 
                         print(relation[2] + " 는 " + relation[0] + "에 포함됨")
                         print(result)
+                        finishloop= True
 
 
 
@@ -190,7 +200,7 @@ class findrule(QDialog):
                     elif subjectDepth < objectDepth:
 
 
-                        f = open("./dump/testSearch.txt", 'r')
+                        f = open("./dump/simplifiedEntity.txt", 'r')
 
                         while True:
                             line = f.readline()
@@ -214,7 +224,7 @@ class findrule(QDialog):
                         print(result)
 
 
-
+        totalDepth = depth
 
         while depth > 0:
 
@@ -224,11 +234,25 @@ class findrule(QDialog):
             relationList = tmpList.split()
             i = 0
 
+            if finishloop:
+                break
+
+
+            currentDepth = totalDepth - depth + 1
+
+            print("depth "+ str(currentDepth) +" searching... \n")
+
+
             while cnt > 0:
                 self.relationA = relationList[i]
-                print(self.relationA)
 
-                f = open("./dump/testSearch.txt", 'r')
+                if finishloop:
+                    break
+
+
+                print("using subject : "+ self.relationA + "\n")
+
+                f = open("./dump/simplifiedEntity.txt", 'r')
 
                 while True:  #파일 오픈후 한바퀴
                     line = f.readline()
@@ -241,7 +265,9 @@ class findrule(QDialog):
                         if self.relationA == triple[0]:
                             furtherList = furtherList + triple[1] + "\n" # 다음depth를 리스트에 합함
                             if self.relationB == triple[1]:
-                               print("really find")
+                               finishloop = True
+                               print("Found the relation!")
+                               break
 
 
 
@@ -251,6 +277,7 @@ class findrule(QDialog):
                 f.close()
 
             depth = depth - 1
+
 
         #뎁스남아있는한루프
             #둘째단어리스트를쪼개서루프

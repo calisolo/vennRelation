@@ -11,13 +11,13 @@ class mainUI(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Main Window')
+        self.setWindowTitle('venn relation')
         self.setGeometry(100, 100, 300, 200)
         
         layout = QVBoxLayout()
         layout.addStretch(1)
         
-        label = QLabel("미지정")
+        label = QLabel("subject - predicate - object")
         label.setAlignment(Qt.AlignCenter)
         font = label.font()
         font.setPointSize(15)

@@ -36,8 +36,8 @@ class addrule2(QDialog):
     def onOKButtonClicked(self):
 
 
-        f = open("./dump/testAdded.txt", 'r')
-        f2 = open("./dump/testAdded.txt", 'a')
+        f = open("./dump/simplifiedEntity.txt", 'r')
+        f2 = open("./dump/simplifiedEntity.txt", 'a')
 
 
         lineInput = self.edit.text()
@@ -45,6 +45,7 @@ class addrule2(QDialog):
         self.tripleS= triple[0]
         self.tripleP= triple[1]
         self.tripleO= triple[2]
+
 
         subjectDepthValue = 0
         objectDepthValue = 0
@@ -86,6 +87,8 @@ class addrule2(QDialog):
         subjectDepth = triple[0] + " " + triple[1] + "Depth " + str(subjectDepthValue) + "\n"
 
         objectDepth = triple[2] + " " + triple[1] + "Depth " + str(objectDepthValue) + "\n"
+
+        print(subjectDepth + objectDepth + "relation defined")
 
 
 
