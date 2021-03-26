@@ -268,6 +268,14 @@ class findrule(QDialog):
                                finishloop = True
                                print("Found the relation!")
                                break
+                    elif len(triple) ==3:
+                        if self.relationA ==triple[0]:
+                            furtherList = furtherList + triple[2] + "\n"
+                            if self.relationB == triple[2]:
+                                finishloop = True
+                                print("Found the relation!")
+                                break
+
 
 
 

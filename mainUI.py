@@ -47,9 +47,9 @@ class mainUI(QMainWindow):
         win.showModal()
 
         r = win.showModal()
-        if r:
-            text = win.outputText()
-            self.label.setText(text)
+        #if r:
+        #    text = win.outputText()
+        #    self.label.setText(text)
         #text = win.edit.text()
     def onButton2Clicked(self):
         win = findrule()

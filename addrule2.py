@@ -68,12 +68,14 @@ class addrule2(QDialog):
                 if self.tripleS == dumpTriple[0]:
                     if self.tripleP+"Depth" == dumpTriple[1]:
                         objectDepthValue = dumpTriple[2]
+                        subjectDepthValue = dumpTriple[2]
                         skipS = 1
                         break
 
                 if self.tripleO == dumpTriple[0]:
                     if self.tripleP+"Depth" == dumpTriple[1]:
                         subjectDepthValue = dumpTriple[2]
+                        objectDepthValue = dumpTriple[2]
                         skipO = 1
                         break
 

@@ -46,7 +46,7 @@ class addrule(QDialog):
         self.tripleS= triple[0]
         self.tripleP= triple[1]
         self.tripleO= triple[2]
-        self.accept()
+
 
         subjectDepthValue = 0
         objectDepthValue = -1
@@ -75,8 +75,10 @@ class addrule(QDialog):
                            #print(int(dumpTriple[2].lstrip(str(p.findall(dumpTriple[2]))))-1)
                            #print(''.join(p.findall(dumpTriple[2])))
                            objectDepthValue= ''.join(p.findall(dumpTriple[2])) + str(int(dumpTriple[2].lstrip(str(p.findall(dumpTriple[2]))))-1)
+                           subjectDepthValue = dumpTriple[2]
                         else:
-                            objectDepthValue = self.tripleS+"-1"
+                            objectDepthValue = str(int(dumpTriple[2]) - 1)
+                            subjectDepthValue = dumpTriple[2]
 
                         skipS =1
                         break
@@ -88,8 +90,10 @@ class addrule(QDialog):
                            #print(int(dumpTriple[2].lstrip(str(p.findall(dumpTriple[2]))))-1)
                            #print(''.join(p.findall(dumpTriple[2])))
                            subjectDepthValue= ''.join(p.findall(dumpTriple[2])) + str(int(dumpTriple[2].lstrip(str(p.findall(dumpTriple[2]))))+1)
+                           objectDepthValue = dumpTriple[2]
                         else:
-                           subjectDepthValue = self.tripleO+"+1"
+                           subjectDepthValue = str(int(dumpTriple[2]) + 1)
+                           objectDepthValue = dumpTriple[2]
 
 
 
@@ -115,6 +119,8 @@ class addrule(QDialog):
             f2.write("".join(subjectDepth))
         if skipO ==0:
             f2.write("".join(objectDepth))
+
+        self.accept()
 
     def onCancelButtonClicked(self):
         self.reject()
