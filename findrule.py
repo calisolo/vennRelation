@@ -44,39 +44,133 @@ class findrule(QDialog):
 
         line = self.edit.text()
         relation = line.split()
-        self.relationA= relation[0]
-        self.relationDepth= relation[1]
-        self.relationB= relation[2]
-        depth = int(self.relationDepth)
+
+        if len(relation) == 1:
+            self.relationA= relation[0]
+        elif len(relation) == 2:
+            self.relationA = relation[0]
+            self.relationDepth= relation[1]
+        elif len(relation) == 3:
+            self.relationA = relation[0]
+            self.relationDepth = relation[1]
+            self.relationB= relation[2]
+
         subjectDepth = ""
         objectDepth = ""
         subjectPredicate = "no allocated"
         objectPredicate ="didn't allocated"
 
         middleDepthExist = ""
+        queryEducationType = False
         subjectDepthExist = False
         objectDepthExist = False
         p = re.compile("[^0-9, -]")
         result = ""
         finishloop = False
+        depth = 0
+
+
+        if relation[0] == '?' or relation[1] == '?' or relation[2] == '?':
+            queryEducationType = True
+
+            if relation[0] == '?':
+                if len(relation) ==2:
+                    print(relation[1] + " 을 목적어로 하는 주어 검색시작 ")
+                elif len(relation) ==3:
+                    print(relation[1] +" 을 서술어로 " + relation[2] +" 을 목적어로 하는 주어 검색시작 ")
+
+            elif relation[1] == '?':
+                print(relation[0] +" 을 주어로 하는 서술어 및 목적어 검색시작" )
+
+            elif relation[2] == '?':
+                print(relation[0] +" 을 주어로 " +relation[1] +" 을 서술어로 하는 목적어 검색시작")
+
 
 
         while True:
+            if queryEducationType ==False: break
             line = f.readline()
             if not line: break
 
             triple = line.split()
             if len(triple) == 1:
                 continue
+
+
+            if relation[0] == '?':
+
+                if len(triple) ==2:
+                    if relation[1] == triple[1]:
+                        print(triple[0])
+
+
+                elif len(triple) ==3:
+                    if len(relation)==2:
+                        if relation[1] ==triple[2]:
+                            print(triple[0])
+
+
+                    elif len(relation)==3:
+                        if relation[1] == triple[1]  and relation[2] == triple[2]:
+                            print(triple[0])
+
+
+            # predicate를 찾는 상황은 가정하지않으므로 무조건 object찾는것임
+
+            elif relation[1] == '?':
+
+                if len(triple) == 2:
+                    if relation[0] == triple[0]:
+                        print(triple[1])
+
+                elif len(triple) ==3:
+                    if relation[0] == triple[0]:
+                        print(triple[1] +" " + triple[2])
+
+
+            elif relation[2] == '?':
+                if len(triple) == 2:
+                    continue
+
+                elif len(triple) == 3:
+                    if relation[0] == triple[0] and relation[1] == triple[1]:
+                        print(triple[2])
+
+
+
+
+
+
+        while True:
+            if queryEducationType: break
+
+            line = f.readline()
+            if not line: break
+
+
+
+
+            triple = line.split()
+            if len(triple) == 1:
+                continue
             elif len(triple) == 2:
                 if relation[0] == triple[0]:
-                    furtherList = furtherList + triple[1] + "\n"
+                    if relation[2] ==triple[1]:
+                        print(relation[2]+ " 은 " + relation[0]+ "에 바로 연결되어있음")
+                        finishloop = True
+                    else:
+                        furtherList = furtherList + triple[1] + "\n"
             elif len(triple) == 3:
                 if relation[0] == triple[0]:
                     if "Depth" == triple[1][-5:]:
                         subjectDepth = triple[2]
                         subjectPredicate = triple[1]
                         subjectDepthExist = True
+
+                    elif relation[2] ==triple[2]:
+                        print(relation[2] + "은 " + relation[0] + " 에 "+triple[1] + "을 통해 바로연결되어있음")
+                        finishloop = True
+
                     else:
                         furtherList = furtherList + triple[2] + "\n"
 
@@ -87,6 +181,7 @@ class findrule(QDialog):
                         objectDepthExist = True
                     else:
                         furtherList = furtherList + triple[2] + "\n"
+
 
         f.close()
 
@@ -224,6 +319,10 @@ class findrule(QDialog):
                         print(result)
 
 
+
+        if queryEducationType== False:
+            depth = int(self.relationDepth)
+
         totalDepth = depth
 
         while depth > 0:
@@ -243,6 +342,9 @@ class findrule(QDialog):
             print("depth "+ str(currentDepth) +" searching... \n")
 
 
+
+
+
             while cnt > 0:
                 self.relationA = relationList[i]
 
@@ -250,7 +352,7 @@ class findrule(QDialog):
                     break
 
 
-                print("using subject : "+ self.relationA + "\n")
+                print("using subject : "+ self.relationA)
 
                 f = open("./dump/simplifiedEntity.txt", 'r')
 
@@ -267,6 +369,7 @@ class findrule(QDialog):
                             if self.relationB == triple[1]:
                                finishloop = True
                                print("Found the relation!")
+                               print(triple[0] + "을 직전 경로로 하는 "+ triple[1] + " 발견 ")
                                break
                     elif len(triple) ==3:
                         if self.relationA ==triple[0]:
@@ -274,6 +377,7 @@ class findrule(QDialog):
                             if self.relationB == triple[2]:
                                 finishloop = True
                                 print("Found the relation!")
+                                print(triple[0] + "을 직전 경로로 하는 " + triple[2] + " 발견 ")
                                 break
 
 
@@ -292,6 +396,8 @@ class findrule(QDialog):
             #둘째단어를첫단어로대체
                 #파일다읽을때까지루프
                 #한줄씩비교해서 첫단어 똑같은것 매칭
+        print("프로그램 실행완료")
+
         self.accept()
 
 
