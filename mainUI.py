@@ -25,12 +25,12 @@ class mainUI(QMainWindow):
         self.label = label
 
 
-        btn = QPushButton("규칙추가")
+        btn = QPushButton("Add rule")
         btn.clicked.connect(self.onButtonClicked)
         layout.addWidget(label)
         layout.addWidget(btn)
 
-        btn2 = QPushButton("쿼리실행")
+        btn2 = QPushButton("Execute Query")
         btn2.clicked.connect(self.onButton2Clicked)
         layout.addWidget(btn2)
         layout.addStretch(1)

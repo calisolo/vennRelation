@@ -12,7 +12,7 @@ class addrule(QDialog):
 
 
         self.setWindowTitle('Sub Window')
-        self.setGeometry(100, 100, 200, 100)
+        self.setGeometry(100, 100, 300, 100)
         layout = QVBoxLayout()
         layout.addStretch(1)
         edit = QLineEdit()
@@ -22,9 +22,9 @@ class addrule(QDialog):
         self.edit = edit
         subLayout = QHBoxLayout()
 
-        btnOK = QPushButton("확인")
+        btnOK = QPushButton("OK")
         btnOK.clicked.connect(self.onOKButtonClicked)
-        btnCancel = QPushButton("취소")
+        btnCancel = QPushButton("Cancel")
         btnCancel.clicked.connect(self.onCancelButtonClicked)
         layout.addWidget(edit)
 

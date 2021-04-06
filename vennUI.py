@@ -15,7 +15,7 @@ class vennUI(QDialog):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('관계모델')
+        self.setWindowTitle('relation Venn model')
         self.setGeometry(100, 100, 200, 100)
         layout = QVBoxLayout()
         layout.addStretch(1)
@@ -28,10 +28,10 @@ class vennUI(QDialog):
         venn2_img.setPixmap(venn2)
         # 벤다이어그램 이미지 임포트
 
-        self.radio1 = QRadioButton("포함모델", self)
+        self.radio1 = QRadioButton("inclusion", self)
         self.radio1.setChecked(True)
         self.radio1.clicked.connect(self.radioButtonClicked)
-        self.radio2 = QRadioButton("일부겹침모델", self)
+        self.radio2 = QRadioButton("partial overlap", self)
         self.radio2.clicked.connect(self.radioButtonClicked)
         # 라디오버튼 선언및 라디오버튼 연결
         outputText = "테스트"
@@ -45,9 +45,9 @@ class vennUI(QDialog):
         subLayout2 = QHBoxLayout()
         subLayoutRadio = QHBoxLayout()
 
-        btnOK = QPushButton("확인")
+        btnOK = QPushButton("OK")
         btnOK.clicked.connect(self.onOKButtonClicked)
-        btnCancel = QPushButton("취소")
+        btnCancel = QPushButton("Cancel")
         btnCancel.clicked.connect(self.onCancelButtonClicked)
 
 
