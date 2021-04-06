@@ -8,6 +8,10 @@ Basic usage
 [manual_english.pdf](https://github.com/kellysolow/vennRelation/files/6264605/manual_english.pdf)  English edition
 
 
+.
+.
+.
+.
 
 
 
@@ -25,6 +29,9 @@ Usage with specific Scenario
 
 [How to use system, Scenario_English.pdf](https://github.com/kellysolow/vennRelation/files/6265566/How.to.use.system.Scenario_English.pdf) English edition
 
+.
+.
+.
 
 textbook Experiment
 
