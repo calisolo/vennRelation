@@ -23,7 +23,7 @@ Usage with specific Scenario
 
 [시스템 사용방법, Scenario (KOR).pdf](https://github.com/kellysolow/vennRelation/files/6264986/Scenario.KOR.pdf)  Korean edition
 
-[How to use system, Scenario_English.pdf](https://github.com/kellysolow/vennRelation/files/6265566/How.to.use.system.Scenario_English.pdf)
+[How to use system, Scenario_English.pdf](https://github.com/kellysolow/vennRelation/files/6265566/How.to.use.system.Scenario_English.pdf) English edition
 
 
 textbook Experiment
