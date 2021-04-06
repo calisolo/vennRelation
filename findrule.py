@@ -78,7 +78,7 @@ class findrule(QDialog):
 
             if relation[0] == '?':
                 if len(relation) ==2:
-                    print("object: "+ relation[1] + " searching")
+                    print(relation[1] + "<- object    subject searching...")
                 elif len(relation) ==3:
                     print(relation[1] +"<- predicate " + relation[2] +"<- object  subject searching...")
 
